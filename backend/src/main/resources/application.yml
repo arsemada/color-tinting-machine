@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: color-tinting-machine
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5434/color_tinting}
+    username: ${SPRING_DATASOURCE_USERNAME:color_tinting}
+    password: ${SPRING_DATASOURCE_PASSWORD:color_tinting}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    time-zone: UTC
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %5p [%X{correlationId:-}] %logger{36} - %msg%n"
+  level:
+    root: INFO
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://127.0.0.1:3000
+      - http://localhost:3001
+      - http://127.0.0.1:3001
+  machine:
+    id: ${APP_MACHINE_ID:machine-1}
+    display-name: ${APP_MACHINE_DISPLAY_NAME:Color Tinting Machine}
+    adapter: ${APP_MACHINE_ADAPTER:http}
+    base-url: ${APP_MACHINE_BASE_URL:}
+    connect-timeout-ms: ${APP_MACHINE_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${APP_MACHINE_READ_TIMEOUT_MS:3000}
+    stale-after-ms: ${APP_MACHINE_STALE_AFTER_MS:10000}
+    poll-interval-ms: ${APP_MACHINE_POLL_INTERVAL_MS:2000}
+    polling-enabled: ${APP_MACHINE_POLLING_ENABLED:true}
+    # Both flags must be true before the HTTP adapter will send a hardware command.
+    # Leave them false until the hardware developer confirms the contract and safety behavior.
+    commands-enabled: ${APP_MACHINE_COMMANDS_ENABLED:false}
+    integration-confirmed: ${APP_MACHINE_INTEGRATION_CONFIRMED:false}
+    safe-retry-count: 1
+    limits:
+      max-channel-dose-grams: 500.000
+      max-total-dose-grams: 2000.000
+      max-pump-test-grams: 5.000
+      min-pump-test-duration-ms: 100
+      max-pump-test-duration-ms: 2000
+    paths:
+      telemetry: /api/v1/telemetry
+      status: /api/v1/status
+      batch-start: /api/v1/commands/batch/start
+      batch-cancel: /api/v1/commands/batch/cancel
+      tare: /api/v1/commands/tare
+      calibrate: /api/v1/commands/sensor/calibrate
+      pump-test: /api/v1/commands/pump/test
+      emergency-stop: /api/v1/commands/emergency-stop

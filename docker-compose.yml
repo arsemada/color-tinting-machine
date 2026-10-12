@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: color-tinting-postgres
+    environment:
+      POSTGRES_DB: color_tinting
+      POSTGRES_USER: color_tinting
+      POSTGRES_PASSWORD: color_tinting
+    ports:
+      - "5434:5432"
+    volumes:
+      - color_tinting_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U color_tinting -d color_tinting"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  color_tinting_pg:
