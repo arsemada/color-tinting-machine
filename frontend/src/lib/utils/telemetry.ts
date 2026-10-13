@@ -90,11 +90,19 @@ export function formatTimestamp(value: string | null | undefined): string {
   if (Number.isNaN(date.getTime())) {
     return "Invalid time";
   }
-  return new Intl.DateTimeFormat(undefined, {
-    dateStyle: "medium",
-    timeStyle: "medium",
-    timeZoneName: "short",
-  }).format(date);
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "medium",
+      timeZoneName: "short",
+    }).format(date);
+  } catch {
+    // Some Windows Intl builds reject timeZoneName together with dateStyle.
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "medium",
+    }).format(date);
+  }
 }
 
 export function createCommandGuard() {

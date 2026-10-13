@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { hexToRgb, normalizeHex, rgbCss } from "@/lib/utils/color";
 import { dispensingProgress, formatDose, sumDoses } from "@/lib/utils/quantity";
-import { connectionPresentation, createCommandGuard, elapsedDuration, isReadingStale } from "@/lib/utils/telemetry";
+import { connectionPresentation, createCommandGuard, elapsedDuration, formatTimestamp, isReadingStale } from "@/lib/utils/telemetry";
 import { recipeSchema } from "@/lib/validation/recipe";
 
 describe("color preview", () => {
@@ -58,6 +58,12 @@ describe("telemetry presentation", () => {
     ).toBe("Communication error");
     expect(isReadingStale("2026-10-12T00:00:00Z", Date.parse("2026-10-12T00:00:11Z"), 10000)).toBe(true);
     expect(isReadingStale(null, Date.now(), 10000)).toBe(false);
+  });
+
+  it("formats timestamps without throwing when the timezone name option is unsupported", () => {
+    expect(formatTimestamp(null)).toBe("—");
+    expect(formatTimestamp("not-a-time")).toBe("Invalid time");
+    expect(formatTimestamp("2026-10-12T21:45:15.380Z")).toMatch(/2026/);
   });
 
   it("hides elapsed time until dispensing is confirmed", () => {
