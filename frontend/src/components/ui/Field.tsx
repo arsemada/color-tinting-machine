@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AlertCircle } from "lucide-react";
 
 export function Field({
   label,
@@ -13,13 +14,18 @@ export function Field({
 }) {
   return (
     <label className="block text-sm">
-      <span className="mb-1 block font-medium">{label}</span>
+      <span className="mb-1.5 block font-semibold text-slate-700 text-xs uppercase tracking-wider">{label}</span>
       {children}
-      {hint ? <span className="mt-1 block text-xs text-muted">{hint}</span> : null}
-      {error ? <span className="mt-1 block text-xs font-medium text-danger">{error}</span> : null}
+      {hint ? <span className="mt-1 block text-xs text-slate-400">{hint}</span> : null}
+      {error ? (
+        <span className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-rose-600">
+          <AlertCircle size={13} className="shrink-0" />
+          {error}
+        </span>
+      ) : null}
     </label>
   );
 }
 
 export const inputClass =
-  "w-full rounded-md border border-line bg-white px-3 py-2 text-sm outline-none ring-accent/30 focus:ring-2";
+  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-800 shadow-xs outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20";

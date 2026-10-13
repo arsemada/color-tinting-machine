@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 import { Button } from "@/components/ui/Button";
+import { AlertTriangle, HelpCircle } from "lucide-react";
 
 export function ConfirmDialog({
   open,
@@ -33,20 +34,34 @@ export function ConfirmDialog({
     return null;
   }
 
+  const isDanger = tone === "danger";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/40 p-4 sm:items-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-slate-900/50 animate-in fade-in duration-200">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-md rounded-xl bg-white p-5 shadow-xl"
+        className="w-full max-w-md rounded-2xl border border-slate-100 bg-white p-6 shadow-2xl transition-all"
       >
-        <h2 id={titleId} className="text-lg font-semibold">
-          {title}
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
-        <div className="mt-5 flex justify-end gap-2">
-          <Button ref={cancelRef} type="button" onClick={onClose}>
+        <div className="flex items-start gap-3.5">
+          <div
+            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+              isDanger ? "bg-rose-100 text-rose-600" : "bg-teal-100 text-teal-700"
+            }`}
+          >
+            {isDanger ? <AlertTriangle size={20} /> : <HelpCircle size={20} />}
+          </div>
+          <div>
+            <h2 id={titleId} className="text-lg font-semibold text-slate-900">
+              {title}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{body}</p>
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end gap-2.5 border-t border-slate-100 pt-4">
+          <Button ref={cancelRef} type="button" tone="secondary" onClick={onClose}>
             Cancel
           </Button>
           <Button

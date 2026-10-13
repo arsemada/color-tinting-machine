@@ -60,10 +60,10 @@ describe("telemetry presentation", () => {
     expect(isReadingStale(null, Date.now(), 10000)).toBe(false);
   });
 
-  it("formats timestamps without throwing when the timezone name option is unsupported", () => {
+  it("formats timestamps without using Intl date styles", () => {
     expect(formatTimestamp(null)).toBe("—");
     expect(formatTimestamp("not-a-time")).toBe("Invalid time");
-    expect(formatTimestamp("2026-10-12T21:45:15.380Z")).toMatch(/2026/);
+    expect(formatTimestamp("2026-10-12T21:45:15.380Z")).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
   });
 
   it("hides elapsed time until dispensing is confirmed", () => {

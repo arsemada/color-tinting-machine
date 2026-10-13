@@ -4,6 +4,8 @@ This document is a proposal for the hardware developer. It is not a description 
 
 Do not enable those flags against a device that has not implemented this contract.
 
+The hardware developer has supplied a pin map, recorded in `docs/hardware-pin-map.md`. That map names GPIOs, the HX711, the TCS3200, active-low pump relays, and a physical stop input. It does not implement or confirm this API.
+
 ## Transport
 
 - The machine controller and the ESP32 should be on the same local network.
@@ -136,14 +138,14 @@ Confirm or correct each item:
 2. Whether telemetry and status are one document or two.
 3. Exact paths and whether they match the table above.
 4. Units for weight and dispensed volume or mass. This proposal uses grams.
-5. The TCS3200-to-RGB conversion and what `CALIBRATED` means.
-6. Load-cell interface, tare procedure, and the meaning of a reported `0`.
+5. The TCS3200-to-RGB conversion and what `CALIBRATED` means. The pin map sets frequency scaling to 20% and selects filters with S2 and S3. It does not give the conversion.
+6. Load-cell tare procedure and the meaning of a reported `0`. The planned interface is an HX711 on GPIO 34 and GPIO 32.
 7. Whether batch pause exists.
 8. How cancellation stops pumps and what state is reported if some colorant was already dispensed.
 9. Whether `reportedBatchId` is sent after completion.
 10. Command idempotency behavior for each POST.
 11. Timeout budget the device can sustain at the chosen poll interval.
-12. Emergency-stop behavior of the software command versus the physical stop.
+12. Emergency-stop behavior of the software command versus the physical stop. The pin map puts an active-low switch on GPIO 39. It does not show that switch removing 12 V pump power.
 13. Maximum safe dose per channel, total dose, pump-test quantity, and pump-test duration.
 14. Firmware version field and fault code list.
 15. Whether any command may run while a batch is dispensing.

@@ -90,19 +90,10 @@ export function formatTimestamp(value: string | null | undefined): string {
   if (Number.isNaN(date.getTime())) {
     return "Invalid time";
   }
-  try {
-    return new Intl.DateTimeFormat(undefined, {
-      dateStyle: "medium",
-      timeStyle: "medium",
-      timeZoneName: "short",
-    }).format(date);
-  } catch {
-    // Some Windows Intl builds reject timeZoneName together with dateStyle.
-    return new Intl.DateTimeFormat(undefined, {
-      dateStyle: "medium",
-      timeStyle: "medium",
-    }).format(date);
-  }
+  // Avoid Intl dateStyle/timeZoneName. Some Windows engines throw
+  // "Invalid option : option" and that exception takes down the dashboard.
+  const pad = (part: number) => String(part).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
 
 export function createCommandGuard() {

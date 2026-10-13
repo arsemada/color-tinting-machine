@@ -109,7 +109,7 @@ mvn test
 
 ## ESP32 status
 
-The HTTP adapter and the provisional contract exist. No firmware was supplied, no device was reached, and no physical pump, sensor, load cell, or emergency stop was verified.
+The HTTP adapter and the provisional contract exist. The hardware developer has sent a pin map (`docs/hardware-pin-map.md`): HX711 load cell, TCS3200, four active-low pump relays, and a physical stop input. No firmware API was supplied, no device was reached, and no physical pump, sensor, load cell, or emergency stop was verified. Pump 4 is labeled Key/Base on that map; the software channel remains Black until that name is confirmed.
 
 A simulated adapter exists only for automated tests and must be selected explicitly with `APP_MACHINE_ADAPTER=simulated`. Its readings are labeled simulated.
 
@@ -127,5 +127,6 @@ A simulated adapter exists only for automated tests and must be selected explici
 - `docs/setup.md`
 - `docs/architecture.md`
 - `docs/esp32-api-contract.md`
+- `docs/hardware-pin-map.md`
 - `docs/safety-and-fault-handling.md`
 - `docs/testing.md`

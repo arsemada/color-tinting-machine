@@ -45,7 +45,7 @@ export function RecipeEditor({ recipe }: { recipe?: Recipe }) {
 
   return (
     <div className="rounded-xl border border-line bg-white p-4 shadow-[var(--shadow)]">
-      <h1 className="mb-4 text-xl font-semibold">{recipe ? "Edit recipe" : "Create recipe"}</h1>
+      <h1 className="mb-4 text-xl font-semibold">{recipe ? "Edit recipe" : "New recipe"}</h1>
       {message ? <p className="mb-3 text-sm text-danger">{message}</p> : null}
       <RecipeForm
         settings={settings.data}

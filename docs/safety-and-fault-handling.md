@@ -1,6 +1,8 @@
 # Safety and fault handling
 
-The dashboard is not a safety system. A physical emergency stop, and firmware that can stop every pump without Wi-Fi, the browser, the backend, or the database, are mandatory before the machine dispenses colorant. The software emergency-stop button only sends a request when hardware integration is verified. It never reports that pumps have stopped unless the machine says so. If the device cannot be reached, the button stays disabled and the screen tells the operator to use the physical stop.
+The dashboard is not a safety system. A physical emergency stop, and firmware that can stop every pump without Wi-Fi, the browser, the backend, or the database, are mandatory before the machine dispenses colorant.
+
+The hardware developer’s pin map is in `docs/hardware-pin-map.md`. Pump relays are active low and are meant to be held high, which is off, during boot. Pumps use a separate 12 V, 5 A supply and must not be powered from the ESP32 3.3 V or 5 V pins. The physical stop button is an input on GPIO 39. That wiring has not been tested, and the diagram does not by itself prove the button cuts pump power when the controller is off. The software emergency-stop button only sends a request when hardware integration is verified. It never reports that pumps have stopped unless the machine says so. If the device cannot be reached, the button stays disabled and the screen tells the operator to use the physical stop.
 
 ## What the software will not do
 
